@@ -1,0 +1,38 @@
+# Source (legacy) -> target table/column mapping used by reconciliation.
+# `transform` is an optional value map applied to the source value before comparing.
+tables:
+  customers:
+    source_table: cust_master
+    target_table: customer
+    key: {source: cust_id, target: customer_id}
+    columns:
+      first_nm: first_name
+      last_nm: last_name
+      dob: date_of_birth
+      email_addr: email
+      status_cd:
+        target: status
+        transform: {A: ACTIVE, I: INACTIVE}
+  deposit_accounts:
+    source_table: dep_acct
+    target_table: deposit_account
+    key: {source: acct_no, target: account_number}
+    columns:
+      cust_id: customer_id
+      product_cd: product_code
+      open_dt: open_date
+      balance_amt: balance
+      currency_cd: currency
+  loans:
+    source_table: loan_acct
+    target_table: loan
+    key: {source: loan_no, target: loan_number}
+    columns:
+      cust_id: customer_id
+      principal_amt: principal
+      rate_pct: interest_rate
+      start_dt: start_date
+      maturity_dt: maturity_date
+      status_cd:
+        target: status
+        transform: {O: OPEN, C: CLOSED}
